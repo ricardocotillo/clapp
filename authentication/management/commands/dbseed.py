@@ -52,5 +52,5 @@ class Command(BaseCommand):
         for i in range(0, 50):
             Publication.objects.create(
                 user_id=i+1,
-                body=self.seeder.faker.sentence(300)
+                body=self.seeder.faker.sentence(20)
             )

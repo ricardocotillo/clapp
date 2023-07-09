@@ -1,0 +1,5 @@
+Django==4.2.3
+django-seed==0.3.1
+djangorestframework==3.14.0
+djoser==2.2.0
+Pillow==10.0.0

@@ -8,7 +8,7 @@ class Publication(models.Model):
         related_name='publications',
     )
     body = models.TextField(max_length=300, null=True)
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

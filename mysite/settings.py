@@ -146,3 +146,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+DJOSER = {
+    'SERIALIZERS': {
+        'current_user': 'authentication.serializers.MeSerializer',
+    }
+}

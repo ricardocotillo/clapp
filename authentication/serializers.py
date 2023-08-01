@@ -19,6 +19,7 @@ class MeSerializer(DjoserUserSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'] = serializers.SerializerMethodField()
+        self.fields['rating'] = serializers.FloatField()
 
     def get_image(self, obj: User):
         url = obj.image.url\

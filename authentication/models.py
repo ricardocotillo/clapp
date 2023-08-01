@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractUser
 
 
@@ -8,8 +8,11 @@ class User(AbstractUser):
     image = models.ImageField(null=True)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, default='player')
-    rating = models.PositiveIntegerField(
-        validators=(MaxValueValidator(limit_value=5),),
+    rating = models.FloatField(
+        validators=(
+            MaxValueValidator(limit_value=5),
+            MinValueValidator(limit_value=1),
+        ),
         null=True,
     )
 

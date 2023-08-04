@@ -24,7 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def get_image(self, obj: User):
-        return obj.image.url if obj.image else static('authentication/img/profile.jpg')
+        url = obj.image.url\
+            if obj.image\
+            else static('authentication/img/profile.jpg')
+
+        return self.context.get('request').build_absolute_uri(url)
 
     def get_matches_abandoned(self, obj: User):
         return MatchPlayer.objects.filter(user=obj, assisted=False).count()

@@ -1,19 +1,23 @@
-import django_filters
+from django_filters import rest_framework as filters
 from .models import UserComment
 
 
-class UserCommentFilter(django_filters.FilterSet):
-    receiver_me = django_filters.BooleanFilter(method='filter_receiver_me')
-    sender_me = django_filters.BooleanFilter(method='filter_sender_me')
+class UserCommentFilter(filters.FilterSet):
+    receiver_me = filters.BooleanFilter(
+        field_name='receiver',
+        method='filter_receiver_me',
+    )
+    sender_me = filters.BooleanFilter(
+        field_name='sender',
+        method='filter_sender_me',
+    )
 
     class Meta:
         model = UserComment
-        fields = ('sender_me', 'receiver_me',)
+        fields = ('receiver', 'sender',)
 
     def filter_receiver_me(self, queryset, name, value):
-        print(name)
-        print(value)
         return queryset.filter(receiver=self.request.user)
 
-    def filter_receiver_me(self, queryset, name, value):
+    def filter_sender_me(self, queryset, name, value):
         return queryset.filter(sender=self.request.user)

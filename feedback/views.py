@@ -8,16 +8,7 @@ from .filters import UserCommentFilter
 class UserCommentViewSet(viewsets.ModelViewSet):
     queryset = UserComment.objects.order_by('-created_at')
     serializer_class = UserCommentSerializer
-
-    def list(self, request, *args, **kwargs):
-        serializer = UserCommentSerializer(
-            self.filter_queryset(self.get_queryset()),
-            many=True,
-            context={
-                'request': request,
-            }
-        )
-        return Response(serializer.data)
+    filterset_class = UserCommentFilter
 
 
 class ClubCommentViewSet(viewsets.ModelViewSet):

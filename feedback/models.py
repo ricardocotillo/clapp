@@ -15,7 +15,7 @@ class UserComment(models.Model):
     message = models.TextField(max_length=300)
 
 
-class TeamComment(models.Model):
+class ClubComment(models.Model):
     sender = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,

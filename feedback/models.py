@@ -10,9 +10,10 @@ class UserComment(models.Model):
     receiver = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,
-        related_name='comments_received'
+        related_name='comments'
     )
     message = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class ClubComment(models.Model):
@@ -27,6 +28,7 @@ class ClubComment(models.Model):
         related_name='comments'
     )
     message = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class MatchComment(models.Model):
@@ -41,3 +43,4 @@ class MatchComment(models.Model):
         related_name='comments'
     )
     message = models.TextField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)

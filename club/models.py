@@ -16,7 +16,7 @@ class Club(models.Model):
         related_name='clubs',
     )
     name = models.CharField(max_length=100, unique=True)
-    image = models.ImageField(null=True)
+    logo = models.ImageField(null=True)
     members = models.ManyToManyField(
         'authentication.User',
         related_name='clubs',
@@ -48,3 +48,18 @@ class Membership(models.Model):
 
     def __str__(self) -> str:
         return f'{self.club.name} - {self.member.email} - {self.role}'
+
+
+class ClubImage(models.Model):
+    club = models.ForeignKey(
+        Club,
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    user = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField()
+    description = models.TextField(null=True)

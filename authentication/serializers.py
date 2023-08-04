@@ -1,7 +1,6 @@
-from django.templatetags.static import static
 from rest_framework import serializers
 from djoser.serializers import UserSerializer as DjoserUserSerializer
-from django.utils.functional import cached_property
+from django.templatetags.static import static
 from match.models import MatchPlayer
 from .models import User
 

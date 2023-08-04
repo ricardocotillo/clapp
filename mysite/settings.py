@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'club',
     'match',
     'publications',
+    'feedback',
 ]
 
 MIDDLEWARE = [
@@ -150,5 +151,6 @@ REST_FRAMEWORK = {
 DJOSER = {
     'SERIALIZERS': {
         'current_user': 'authentication.serializers.MeSerializer',
+        'user': 'authentication.serializers.UserSerializer'
     }
 }

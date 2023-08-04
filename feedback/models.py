@@ -1,15 +1,43 @@
 from django.db import models
 
 
-class Comment(models.Model):
+class UserComment(models.Model):
     sender = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,
-        related_name='comments_sent'
+        related_name='user_comments'
     )
     receiver = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,
         related_name='comments_received'
+    )
+    message = models.TextField(max_length=300)
+
+
+class TeamComment(models.Model):
+    sender = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='team_comments'
+    )
+    receiver = models.ForeignKey(
+        'club.Club',
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    message = models.TextField(max_length=300)
+
+
+class MatchComment(models.Model):
+    sender = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='match_comments'
+    )
+    receiver = models.ForeignKey(
+        'match.Match',
+        on_delete=models.CASCADE,
+        related_name='comments'
     )
     message = models.TextField(max_length=300)

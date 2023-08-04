@@ -8,13 +8,29 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    matches_assisted = serializers.SerializerMethodField()
+    matches_abandoned = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ('id', 'image', 'email', 'first_name', 'last_name',)
+        fields = (
+            'id',
+            'image',
+            'email',
+            'first_name',
+            'last_name',
+            'matches_assisted',
+            'matches_abandoned',
+        )
 
     def get_image(self, obj: User):
         return obj.image.url if obj.image else static('authentication/img/profile.jpg')
+
+    def get_matches_abandoned(self, obj: User):
+        return MatchPlayer.objects.filter(user=obj, assisted=False).count()
+
+    def get_matches_assisted(self, obj: User):
+        return MatchPlayer.objects.filter(user=obj, assisted=True).count()
 
 
 class MeSerializer(DjoserUserSerializer):
@@ -22,8 +38,8 @@ class MeSerializer(DjoserUserSerializer):
         super().__init__(*args, **kwargs)
         self.fields['image'] = serializers.SerializerMethodField()
         self.fields['rating'] = serializers.FloatField()
-        # self.fields['matches_assisted'] = serializers.IntegerField()
-        # self.fields['matches_abandoned'] = serializers.IntegerField()
+        self.fields['matches_assisted'] = serializers.SerializerMethodField()
+        self.fields['matches_abandoned'] = serializers.SerializerMethodField()
 
     def get_image(self, obj: User):
         url = obj.image.url\
@@ -31,3 +47,9 @@ class MeSerializer(DjoserUserSerializer):
             else static('authentication/img/profile.jpg')
 
         return self.context.get('request').build_absolute_uri(url)
+
+    def get_matches_abandoned(self, obj: User):
+        return MatchPlayer.objects.filter(user=obj, assisted=False).count()
+
+    def get_matches_assisted(self, obj: User):
+        return MatchPlayer.objects.filter(user=obj, assisted=True).count()

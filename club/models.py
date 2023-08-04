@@ -11,10 +11,12 @@ class Sport(models.Model):
 class Club(models.Model):
     sport = models.ForeignKey(
         'club.Sport',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
         related_name='clubs',
     )
     name = models.CharField(max_length=100, unique=True)
+    image = models.ImageField(null=True)
     members = models.ManyToManyField(
         'authentication.User',
         related_name='clubs',
@@ -36,7 +38,10 @@ class Membership(models.Model):
     member = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
     role = models.CharField(
-        max_length=10, choices=Roles.choices, default=Roles.MEMBER)
+        max_length=10,
+        choices=Roles.choices,
+        default=Roles.MEMBER,
+    )
     team = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import UserComment
+from .models import UserComment, ClubComment
 
 
 class UserCommentFilter(filters.FilterSet):
@@ -21,3 +21,9 @@ class UserCommentFilter(filters.FilterSet):
 
     def filter_sender_me(self, queryset, name, value):
         return queryset.filter(sender=self.request.user)
+
+
+class ClubCommentFilter(filters.FilterSet):
+    class Meta:
+        model = ClubComment
+        fields = ('receiver', 'sender')

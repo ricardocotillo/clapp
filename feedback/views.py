@@ -1,8 +1,7 @@
 from rest_framework import viewsets
-from rest_framework.response import Response
 from .models import UserComment, MatchComment, ClubComment
 from .serializers import UserCommentSerializer, ClubCommentSerializer, MatchCommentSerializer
-from .filters import UserCommentFilter
+from .filters import UserCommentFilter, ClubCommentFilter
 
 
 class UserCommentViewSet(viewsets.ModelViewSet):
@@ -14,7 +13,7 @@ class UserCommentViewSet(viewsets.ModelViewSet):
 class ClubCommentViewSet(viewsets.ModelViewSet):
     queryset = ClubComment.objects.order_by('-created_at')
     serializer_class = ClubCommentSerializer
-    filterset_fields = ('receiver', 'sender',)
+    filterset_class = ClubCommentFilter
 
 
 class MatchCommentViewSet(viewsets.ModelViewSet):

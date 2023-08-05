@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.templatetags.static import static
-from .models import Club, Sport, ClubImage
+from authentication.serializers import UserSerializer
+from .models import Club, Sport, ClubImage, Membership
 
 
 class SportSerializer(serializers.ModelSerializer):
@@ -31,3 +32,11 @@ class ClubSerializer(serializers.ModelSerializer):
             else static('club/img/empty.jpg')
 
         return self.context.get('request').build_absolute_uri(url)
+
+
+class MembershipSerializer(serializers.ModelSerializer):
+    member = UserSerializer()
+
+    class Meta:
+        model = Membership
+        fields = '__all__'

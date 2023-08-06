@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils import timesince
-from authentication.serializers import UserSerializer, User
+from authentication.serializers import UserSerializer
 from .models import Publication
 from .fields import Base64ImageField
 
@@ -14,7 +14,6 @@ class PublicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publication
         fields = '__all__'
-        
 
     def get_time_since_created(self, obj: Publication):
         return timesince.timesince(obj.created_at).split(',')[0]
@@ -25,4 +24,3 @@ class PublicationSerializer(serializers.ModelSerializer):
     def create(self, validated_data: dict):
         user = self.context.get('request').user
         return Publication.objects.create(user=user, **validated_data)
-        

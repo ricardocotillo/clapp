@@ -5,13 +5,20 @@ from .models import UserComment, MatchComment, ClubComment
 
 
 class UserCommentSerializer(serializers.ModelSerializer):
-    sender = UserSerializer()
-    receiver = UserSerializer()
-    time_since_created = serializers.SerializerMethodField()
+    sender = UserSerializer(read_only=True)
+    sender_id = serializers.IntegerField()
+    time_since_created = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserComment
-        fields = '__all__'
+        fields = (
+            'id',
+            'sender',
+            'receiver',
+            'sender_id',
+            'message',
+            'time_since_created',
+        )
 
     def get_time_since_created(self, obj: UserComment):
         return timesince.timesince(obj.created_at).split(',')[0]

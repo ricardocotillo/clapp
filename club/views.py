@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django.db.models import Count
 from .models import Club, Membership
 from .serializers import ClubSerializer, MembershipSerializer
-from .filters import MembershipFilter
+from .filters import MembershipFilter, ClubFilter
 
 
 class ClubViewSet(viewsets.ModelViewSet):
@@ -10,6 +10,7 @@ class ClubViewSet(viewsets.ModelViewSet):
         members_count=Count('members')
     ).order_by('-created_at')
     serializer_class = ClubSerializer
+    filterset_class = ClubFilter
 
 
 class MembershipViewSet(viewsets.ModelViewSet):

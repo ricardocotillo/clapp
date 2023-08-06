@@ -15,6 +15,12 @@ class Club(models.Model):
         null=True,
         related_name='clubs',
     )
+    owner = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='owned_clubs',
+    )
     name = models.CharField(max_length=100, unique=True)
     logo = models.ImageField(null=True)
     members = models.ManyToManyField(

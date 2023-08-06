@@ -11,4 +11,4 @@ class MembershipFilter(filters.FilterSet):
 class ClubFilter(filters.FilterSet):
     class Meta:
         model = Club
-        fields = ('owner', 'members',)
+        fields = ('owner', 'members', 'sport')

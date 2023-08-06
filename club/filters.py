@@ -1,9 +1,6 @@
 from django_filters import rest_framework as filters
+from utils.filters import NumberInFilter
 from .models import Membership, Club
-
-
-class NumberInFilter(filters.BaseInFilter, filters.NumberFilter):
-    pass
 
 
 class MembershipFilter(filters.FilterSet):

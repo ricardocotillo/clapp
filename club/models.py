@@ -21,7 +21,7 @@ class Club(models.Model):
         null=True,
         related_name='owned_clubs',
     )
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, verbose_name='nombre')
     logo = models.ImageField(null=True)
     members = models.ManyToManyField(
         'authentication.User',
@@ -41,7 +41,7 @@ class Membership(models.Model):
         ADMIN = 'admin', 'Administrador'
         MEMBER = 'member', 'Miembro'
 
-    member = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
     role = models.CharField(
         max_length=10,

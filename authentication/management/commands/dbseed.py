@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
             for u in users:
                 Membership.objects.create(
-                    member_id=u,
+                    user_id=u,
                     club_id=c.pk,
                     role=next(roles),
                     team=next(team),

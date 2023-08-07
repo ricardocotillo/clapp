@@ -10,9 +10,15 @@ class ReactionType(models.IntegerChoices):
 class Reaction(models.Model):
     type = models.IntegerField(choices=ReactionType.choices, null=True)
     user = models.ForeignKey(
-        'authentication.User', on_delete=models.CASCADE, related_name='reactions')
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='reactions'
+    )
     publication = models.ForeignKey(
-        'Publication', on_delete=models.CASCADE, related_name='reactions')
+        'Publication',
+        on_delete=models.CASCADE,
+        related_name='reactions'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True)
@@ -38,8 +44,9 @@ class Publication(models.Model):
         return f'{self.user.email} - {self.created_at}'
 
     def react(self, user: User, type: int):
-        return Reaction.objects.create(
+        return Reaction.objects.update_or_create(
             type=type,
             user=user,
             publication=self,
+            deleted_at=None,
         )

@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/', include('publications.urls')),
     path('api/', include('feedback.urls')),
     path('api/', include('club.urls')),
+    path('api/', include('authentication.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

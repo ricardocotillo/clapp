@@ -1,7 +1,9 @@
 from rest_framework import serializers
+from generic_relations.relations import GenericRelatedField
 from django.utils import timesince
-from authentication.serializers import UserSerializer
-from .models import UserComment, MatchComment, ClubComment
+from authentication.serializers import UserSerializer, User
+from club.serializers import ClubSerializer, Club
+from .models import UserComment, MatchComment, ClubComment, Rate
 
 
 class UserCommentSerializer(serializers.ModelSerializer):
@@ -62,3 +64,15 @@ class ClubCommentSerializer(serializers.ModelSerializer):
 
     def get_time_since_created(self, obj: ClubComment):
         return timesince.timesince(obj.created_at).split(',')[0]
+
+
+class RateSerializer(serializers.ModelSerializer):
+    content_object = GenericRelatedField({
+        User: UserSerializer(),
+        Club: ClubSerializer(),
+    })
+    user = UserSerializer()
+
+    class Meta:
+        model = Rate
+        fields = ('rating', 'user', 'content_object')

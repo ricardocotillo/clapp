@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class Sport(models.Model):
@@ -28,6 +29,7 @@ class Club(models.Model):
         related_name='clubs',
         through='club.Membership',
     )
+    rating = GenericRelation('feedback.Rate', related_query_name='club')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -21,6 +21,10 @@ class PublicationSerializer(serializers.ModelSerializer):
     def get_time_since_updated(self, obj: Publication):
         return timesince.timesince(obj.updated_at).split(',')[0]
 
+    def get_liked(self, obj: Publication):
+        user = self.context.get('request').user
+        return obj.reactions.filter(user=user).exists()
+
     def create(self, validated_data: dict):
         user = self.context.get('request').user
         return Publication.objects.create(user=user, **validated_data)

@@ -29,8 +29,16 @@ class Reaction(models.Model):
 
 
 class PublicationResponse(models.Model):
-    parent = models.ForeignKey('Publication', on_delete=models.CASCADE)
-    child = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        'Publication',
+        on_delete=models.CASCADE,
+        related_name='children',
+    )
+    child = models.ForeignKey(
+        'Publication',
+        on_delete=models.CASCADE,
+        related_name='parent',
+    )
 
 
 class Publication(models.Model):

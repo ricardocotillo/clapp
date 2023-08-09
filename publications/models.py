@@ -28,6 +28,11 @@ class Reaction(models.Model):
         self.save()
 
 
+class PublicationResponse(models.Model):
+    parent = models.ForeignKey('Publication', on_delete=models.CASCADE)
+    child = models.ForeignKey('Publication', on_delete=models.CASCADE)
+
+
 class Publication(models.Model):
     user = models.ForeignKey(
         'authentication.User',
@@ -43,10 +48,16 @@ class Publication(models.Model):
     def __str__(self) -> str:
         return f'{self.user.email} - {self.created_at}'
 
-    def react(self, user: User, type: int):
+    def react(self, user: User, type: int) -> Reaction:
         return Reaction.objects.update_or_create(
             type=type,
             user=user,
             publication=self,
             deleted_at=None,
+        )
+
+    def respond(self, publication) -> PublicationResponse:
+        return PublicationResponse.objects.create(
+            parent=self,
+            child=publication,
         )

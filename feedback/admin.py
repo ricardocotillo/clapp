@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import UserComment, ClubComment, MatchComment
+from .models import Comment, Rating
 
-admin.site.register(UserComment)
-admin.site.register(ClubComment)
-admin.site.register(MatchComment)
+admin.site.register(Comment)
+admin.site.register(Rating)

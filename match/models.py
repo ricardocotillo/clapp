@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class Match(models.Model):
@@ -29,6 +30,7 @@ class Match(models.Model):
         through='MatchPlayer',
         related_name='matches',
     )
+    comments = GenericRelation('feedback.Comment', related_query_name='match')
 
 
 class MatchPlayer(models.Model):

@@ -4,52 +4,28 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
-class UserComment(models.Model):
-    sender = models.ForeignKey(
+class Comment(models.Model):
+    user = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,
-        related_name='user_comments'
-    )
-    receiver = models.ForeignKey(
-        'authentication.User',
-        on_delete=models.CASCADE,
-        related_name='comments'
+        related_name='sent_comments'
     )
     message = models.TextField(max_length=300)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        indexes = (
+            models.Index(
+                fields=('content_type', 'object_id'),
+            ),
+        )
 
 
-class ClubComment(models.Model):
-    sender = models.ForeignKey(
-        'authentication.User',
-        on_delete=models.CASCADE,
-        related_name='team_comments'
-    )
-    receiver = models.ForeignKey(
-        'club.Club',
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
-    message = models.TextField(max_length=300)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
-class MatchComment(models.Model):
-    sender = models.ForeignKey(
-        'authentication.User',
-        on_delete=models.CASCADE,
-        related_name='match_comments'
-    )
-    receiver = models.ForeignKey(
-        'match.Match',
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
-    message = models.TextField(max_length=300)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
-class Rate(models.Model):
+class Rating(models.Model):
     rating = models.FloatField(
         validators=(
             MaxValueValidator(limit_value=5),

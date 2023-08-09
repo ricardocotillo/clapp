@@ -1,9 +1,7 @@
 from rest_framework import routers
-from .views import UserCommentViewSet, ClubCommentViewSet, MatchCommentViewSet
+from .views import CommentViewSet
 
 router = routers.SimpleRouter()
-router.register('user-comments', UserCommentViewSet)
-router.register('club-comments', ClubCommentViewSet)
-router.register('match-comments', MatchCommentViewSet)
+router.register('comments', CommentViewSet)
 
 urlpatterns = router.urls

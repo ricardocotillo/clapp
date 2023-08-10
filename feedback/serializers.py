@@ -7,16 +7,16 @@ from .models import Comment, Rating
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
-    user = UserSerializer(read_only=True)
+    owner_id = serializers.IntegerField()
+    owner = UserSerializer(read_only=True)
     model = serializers.CharField(required=False)
 
     class Meta:
         model = Comment
         fields = (
             'id',
-            'user',
-            'user_id',
+            'owner',
+            'owner_id',
             'message',
             'model',
             'object_id',
@@ -32,11 +32,11 @@ class CommentSerializer(serializers.ModelSerializer):
         m = validated_data.get('model')
         oi = validated_data.get('object_id')
         ct = ContentType.objects.get(model=m)
-        ui = validated_data.get('user_id')
+        ui = validated_data.get('owner_id')
         validated_data['content_type'] = ct
         validated_data['object_id'] = oi
         comment = Comment.objects.create(
-            user_id=ui,
+            owner_id=ui,
             content_type=ct,
             object_id=oi,
             message=validated_data.get('message')

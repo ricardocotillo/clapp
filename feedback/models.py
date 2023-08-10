@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(
+    owner = models.ForeignKey(
         'authentication.User',
         on_delete=models.CASCADE,
         related_name='sent_comments'
@@ -26,17 +26,17 @@ class Comment(models.Model):
 
 
 class Rating(models.Model):
+    owner = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='ratings'
+    )
     rating = models.FloatField(
         validators=(
             MaxValueValidator(limit_value=5),
             MinValueValidator(limit_value=1),
         ),
-    )
-    user = models.ForeignKey(
-        'authentication.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='rates'
     )
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveBigIntegerField()

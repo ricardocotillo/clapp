@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.postgres.fields import ArrayField
+from django.utils.timezone import datetime, timedelta
 
 
 class Place(models.Model):
@@ -10,7 +11,7 @@ class Place(models.Model):
         on_delete=models.CASCADE,
         related_name='places',
     )
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     address = models.CharField()
     district = models.CharField()
     city = models.CharField()
@@ -18,6 +19,37 @@ class Place(models.Model):
         'club.Sports',
         related_name='places',
     )
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Booking(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        CONFIRMED = 'confirmed', 'Confirmed'
+        CANCELED = 'canceled', 'Canceled'
+
+    court = models.ForeignKey(
+        'Court',
+        on_delete=models.CASCADE,
+        related_name='bookings',
+    )
+    user = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='bookings',
+    )
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    status = models.CharField(
+        max_length=15,
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+
+    def __str__(self) -> str:
+        return f'{self.court.name} - {self.start} - {self.status}'
 
 
 class Court(models.Model):
@@ -58,21 +90,16 @@ class Court(models.Model):
         decimal_places=2,
     )
 
+    class Meta:
+        unique_together = ('place_id', 'name',)
 
-class Booking(models.Model):
-    class Status(models.TextChoices):
-        PENDING = 'pending', 'Pending'
-        CONFIRMED = 'confirmed', 'Confirmed'
-        CANCELED = 'canceled', 'Canceled'
+    def __str__(self) -> str:
+        return self.name
 
-    court = models.ForeignKey(
-        Court,
-        on_delete=models.CASCADE,
-        related_name='bookings',
-    )
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    status = models.CharField(
-        max_length=15,
-        choices=Status.choices,
-    )
+    def book(self, user, start: datetime, duration: timedelta):
+        return Booking.objects.create(
+            court=self.id,
+            user=user,
+            start=start,
+            end=start + duration,
+        )

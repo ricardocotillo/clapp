@@ -28,6 +28,7 @@ urlpatterns = [
         path('', include('feedback.urls')),
         path('', include('club.urls')),
         path('', include('authentication.urls')),
+        path('', include('booking.urls')),
     ]))
 ]
 if settings.DEBUG:

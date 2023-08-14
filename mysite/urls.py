@@ -31,6 +31,7 @@ urlpatterns = [
         path('', include('booking.urls')),
     ]))
 ]
+
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,

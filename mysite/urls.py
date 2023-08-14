@@ -23,10 +23,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
-    path('api/', include('publications.urls')),
-    path('api/', include('feedback.urls')),
-    path('api/', include('club.urls')),
-    path('api/', include('authentication.urls')),
+    path('api/', include([
+        path('', include('publications.urls')),
+        path('', include('feedback.urls')),
+        path('', include('club.urls')),
+        path('', include('authentication.urls')),
+    ]))
 ]
 if settings.DEBUG:
     urlpatterns += static(

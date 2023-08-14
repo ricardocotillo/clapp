@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'match',
     'publications',
     'feedback',
+    'booking',
     'utils',
 ]
 

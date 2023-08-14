@@ -72,7 +72,7 @@ class Court(models.Model):
         'feedback.Image',
         related_query_name='court',
     )
-    block = models.DurationField()
+    duration = models.DurationField(default=timedelta(hours=1))
     days = ArrayField(
         models.PositiveIntegerField(
             choices=Day.choices,

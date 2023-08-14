@@ -11,6 +11,9 @@ class Place(models.Model):
         related_name='places',
     )
     name = models.CharField(max_length=150)
+    address = models.CharField()
+    district = models.CharField()
+    city = models.CharField()
     sports = models.ManyToManyField(
         'club.Sports',
         related_name='places',
@@ -45,11 +48,15 @@ class Court(models.Model):
             validators=(
                 MaxValueValidator(limit_value=7),
                 MinValueValidator(limit_value=1),
-            )
-        )
+            ),
+        ),
     )
     start = models.TimeField()
     end = models.TimeField()
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+    )
 
 
 class Booking(models.Model):

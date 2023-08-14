@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.templatetags.static import static
 from authentication.serializers import UserSerializer
-from .models import Club, Sport, ClubImage, Membership
+from .models import Club, Sport, Membership
 
 
 class SportSerializer(serializers.ModelSerializer):
@@ -10,16 +10,10 @@ class SportSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ClubImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClubImage
-        fields = '__all__'
-
-
 class ClubSerializer(serializers.ModelSerializer):
     sport = SportSerializer(read_only=True)
     sport_id = serializers.IntegerField()
-    images = ClubImageSerializer(many=True, read_only=True)
+    # images = ClubImageSerializer(many=True, read_only=True)
     members_count = serializers.IntegerField(read_only=True)
     logo = serializers.SerializerMethodField()
 
@@ -31,7 +25,7 @@ class ClubSerializer(serializers.ModelSerializer):
             'sport_id',
             'name',
             'logo',
-            'images',
+            # 'images',
             'members_count',
             'created_at',
             'updated_at',

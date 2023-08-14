@@ -38,7 +38,33 @@ class Rating(models.Model):
             MinValueValidator(limit_value=1),
         ),
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+    )
+    object_id = models.PositiveBigIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    class Meta:
+        indexes = (
+            models.Index(
+                fields=('content_type', 'object_id',),
+            ),
+        )
+
+
+class Image(models.Model):
+    user = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField()
+    description = models.TextField(null=True, max_length=150)
+    content_type = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE,
+    )
     object_id = models.PositiveBigIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 

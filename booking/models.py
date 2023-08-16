@@ -1,8 +1,9 @@
+import datetime
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.postgres.fields import ArrayField
-from django.utils.timezone import datetime, timedelta
+from django.utils.timezone import timedelta
 
 
 class Place(models.Model):
@@ -82,9 +83,10 @@ class Court(models.Model):
                 MinValueValidator(limit_value=1),
             ),
         ),
+        default=list
     )
-    start = models.TimeField()
-    end = models.TimeField()
+    start = models.TimeField(default=datetime.time(8, 0, 0))
+    end = models.TimeField(default=datetime.time(23, 0, 0))
     price = models.DecimalField(
         max_digits=5,
         decimal_places=2,

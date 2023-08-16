@@ -14,4 +14,4 @@ class PlaceFilter(filters.FilterSet):
 class BookingFilter(filters.FilterSet):
     class Meta:
         model = Booking
-        fields = ('court', 'start',)
+        fields = ('court', 'start', 'status',)

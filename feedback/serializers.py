@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from generic_relations.relations import GenericRelatedField
 from django.contrib.contenttypes.models import ContentType
+from django.utils.timesince import timesince
 from authentication.serializers import UserSerializer, User
 from club.serializers import ClubSerializer, Club
 from .models import Comment, Rating
@@ -10,6 +11,7 @@ class CommentSerializer(serializers.ModelSerializer):
     owner_id = serializers.IntegerField()
     owner = UserSerializer(read_only=True)
     model = serializers.CharField(required=False)
+    time_since_created = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -21,12 +23,16 @@ class CommentSerializer(serializers.ModelSerializer):
             'model',
             'object_id',
             'created_at',
+            'time_since_created',
         )
         extra_kwargs = {
             'model': {
                 'write_only': True,
-            }
+            },
         }
+
+    def get_time_since_created(self, obj: Comment):
+        return timesince(obj.created_at).split(',')[0]
 
     def create(self, validated_data: dict):
         m = validated_data.get('model')

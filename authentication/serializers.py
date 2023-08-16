@@ -40,7 +40,6 @@ class MeSerializer(DjoserUserSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'] = serializers.SerializerMethodField()
-        self.fields['rating'] = serializers.FloatField()
         self.fields['matches_assisted'] = serializers.SerializerMethodField()
         self.fields['matches_abandoned'] = serializers.SerializerMethodField()
 

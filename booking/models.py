@@ -12,11 +12,11 @@ class Place(models.Model):
         related_name='places',
     )
     name = models.CharField(max_length=150, unique=True)
-    address = models.CharField()
-    district = models.CharField()
-    city = models.CharField()
+    address = models.CharField(max_length=250)
+    district = models.CharField(max_length=6)
+    city = models.CharField(max_length=5)
     sports = models.ManyToManyField(
-        'club.Sports',
+        'club.Sport',
         related_name='places',
     )
 

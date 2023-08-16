@@ -12,6 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.seeder.add_entity(User, 200, {
+            'image': None,
             'is_staff': False,
             'is_active': True,
             'is_superuser': False,

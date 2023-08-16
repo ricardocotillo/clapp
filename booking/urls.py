@@ -5,4 +5,4 @@ router = routers.SimpleRouter()
 router.register('places', PlaceViewSet)
 router.register('bookings', BookingViewSet)
 
-urlpatterns = router.routes
+urlpatterns = router.urls

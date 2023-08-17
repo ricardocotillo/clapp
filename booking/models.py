@@ -4,6 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.postgres.fields import ArrayField
 from django.utils.timezone import timedelta
+from authentication.models import User
 
 
 class Place(models.Model):
@@ -98,9 +99,9 @@ class Court(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def book(self, user, start: datetime, duration: timedelta):
+    def book(self, user: User, start: datetime, duration: timedelta):
         return Booking.objects.create(
-            court=self.id,
+            court_id=self.pk,
             user=user,
             start=start,
             end=start + duration,

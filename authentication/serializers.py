@@ -55,3 +55,15 @@ class MeSerializer(DjoserUserSerializer):
 
     def get_matches_assisted(self, obj: User):
         return MatchPlayer.objects.filter(user=obj, assisted=True).count()
+
+
+class RelatedUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'image',
+        )

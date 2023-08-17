@@ -5,7 +5,7 @@ from .filters import PlaceFilter, BookingFilter
 
 
 class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Place.objects.all()
+    queryset = Place.objects.order_by('-id')
     serializer_class = PlaceSerializer
     filterset_class = PlaceFilter
 

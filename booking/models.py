@@ -17,9 +17,9 @@ class Place(models.Model):
     address = models.CharField(max_length=250)
     district = models.CharField(max_length=6)
     city = models.CharField(max_length=5)
-    sports = models.ManyToManyField(
-        'club.Sport',
-        related_name='places',
+    images = GenericRelation(
+        'feedback.Image',
+        related_query_name='place',
     )
 
     def __str__(self) -> str:
@@ -91,6 +91,12 @@ class Court(models.Model):
     price = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+    )
+    sport = models.ForeignKey(
+        'club.Sport',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='courts',
     )
 
     class Meta:

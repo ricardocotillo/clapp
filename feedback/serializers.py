@@ -2,9 +2,9 @@ from rest_framework import serializers
 from generic_relations.relations import GenericRelatedField
 from django.contrib.contenttypes.models import ContentType
 from django.utils.timesince import timesince
-from authentication.serializers import UserSerializer, User
+from authentication.serializers import UserSerializer, User, RelatedUserSerializer
 from club.serializers import ClubSerializer, Club
-from .models import Comment, Rating
+from .models import Comment, Rating, Image
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -60,3 +60,11 @@ class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
         fields = ('id', 'rating', 'user', 'content_object')
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    user = RelatedUserSerializer()
+
+    class Meta:
+        model = Image
+        fields = ('id', 'image', 'description', 'user',)

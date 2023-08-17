@@ -74,3 +74,8 @@ class Image(models.Model):
                 fields=('content_type', 'object_id',),
             ),
         )
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None) -> None:
+        if not self.description:
+            self.description = None
+        return super().save(force_insert, force_update, using, update_fields)

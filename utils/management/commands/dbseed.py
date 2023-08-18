@@ -9,7 +9,7 @@ from django.conf import settings
 
 from authentication.models import User
 from club.models import Club, Sport, Membership
-from booking.models import Place
+from booking.models import Place, Court
 from feedback.models import Image
 from publications.models import Publication
 

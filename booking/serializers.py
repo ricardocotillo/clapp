@@ -7,6 +7,8 @@ from .models import Place, Court, Booking
 
 
 class CourtSerializer(serializers.ModelSerializer):
+    sport = SportSerializer()
+
     class Meta:
         model = Court
         fields = '__all__'

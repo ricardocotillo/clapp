@@ -77,7 +77,7 @@ class Command(BaseCommand):
             pic.image.save(f'{uuid4()}.jpg', f)
             bonilla.images.add(pic, bulk=False)
 
-        Place.objects.create(
+        chamochumbi, _ = Place.objects.create(
             owner=superman,
             name='Chamochumbi',
             address='av. nueva direccion',
@@ -88,10 +88,10 @@ class Command(BaseCommand):
         for i in range(5):
             img_url = get_unsplash_image('basketball', page=i+1)
             f = get_file_from_url(img_url)
-            pic = Image(user=superman, content_object=bonilla)
+            pic = Image(user=superman, content_object=chamochumbi)
             pic.save()
             pic.image.save(f'{uuid4()}.jpg', f)
-            bonilla.images.add(pic, bulk=False)
+            chamochumbi.images.add(pic, bulk=False)
 
         Place.objects.create(
             owner=superman,

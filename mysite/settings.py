@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
@@ -177,3 +177,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(weeks=4),
 }
+
+UNSPLASH_BASE = 'https://api.unsplash.com'
+UNSPLASH_ACCESS_KEY = env('UNSPLASH_ACCESS_KEY')
+UNSPLASH_SECRET_KEY = env('UNSPLASH_SECRET_KEY')

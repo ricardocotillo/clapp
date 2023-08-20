@@ -17,6 +17,9 @@ class Place(models.Model):
     address = models.CharField(max_length=250)
     district = models.CharField(max_length=6)
     city = models.CharField(max_length=5)
+    province = models.CharField(max_length=50)
+    lat = models.DecimalField(max_digits=22, decimal_places=16, null=True)
+    long = models.DecimalField(max_digits=22, decimal_places=16, null=True)
     images = GenericRelation(
         'feedback.Image',
         related_query_name='place',

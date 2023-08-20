@@ -58,7 +58,7 @@ class Booking(models.Model):
 
 
 class Court(models.Model):
-    def default_week_days(self):
+    def default_week_days():
         return [1, 2, 3, 4, 5, 6, 7]
 
     class WeekDay(models.IntegerChoices):

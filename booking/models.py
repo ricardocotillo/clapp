@@ -55,6 +55,9 @@ class Booking(models.Model):
 
 
 class Court(models.Model):
+    def default_week_days(self):
+        return [1, 2, 3, 4, 5, 6, 7]
+
     class Day(models.IntegerChoices):
         MONDAY = 1, 'Monday'
         TUESDAY = 2, 'Tuesday'
@@ -75,7 +78,7 @@ class Court(models.Model):
         related_query_name='court',
     )
     duration = models.DurationField(default=timedelta(hours=1))
-    days = ArrayField(
+    week_days = ArrayField(
         models.PositiveIntegerField(
             choices=Day.choices,
             unique=True,
@@ -84,8 +87,9 @@ class Court(models.Model):
                 MinValueValidator(limit_value=1),
             ),
         ),
-        default=list
+        default=default_week_days
     )
+    days = models.PositiveIntegerField(default=7)
     start = models.TimeField(default=datetime.time(8, 0, 0))
     end = models.TimeField(default=datetime.time(23, 0, 0))
     price = models.DecimalField(

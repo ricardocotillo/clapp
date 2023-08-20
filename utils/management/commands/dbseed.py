@@ -77,7 +77,7 @@ class Command(BaseCommand):
             pic.image.save(f'{uuid4()}.jpg', f)
             bonilla.images.add(pic, bulk=False)
 
-        chamochumbi, _ = Place.objects.create(
+        chamochumbi, _ = Place.objects.get_or_create(
             owner=superman,
             name='Chamochumbi',
             address='av. nueva direccion',

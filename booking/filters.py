@@ -12,6 +12,8 @@ class PlaceFilter(filters.FilterSet):
 
 
 class BookingFilter(filters.FilterSet):
+    start_date = filters.DateFilter(field_name='start', lookup_expr='date')
+
     class Meta:
         model = Booking
         fields = ('court', 'start', 'status',)

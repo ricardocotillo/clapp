@@ -11,7 +11,7 @@ class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class BookingViewSet(viewsets.ModelViewSet):
-    queryset = Booking.objects.all()
+    queryset = Booking.objects.order_by('start')
     serializer_class = BookingSerializer
     filterset_class = BookingFilter
 

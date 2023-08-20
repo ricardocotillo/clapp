@@ -61,7 +61,7 @@ class Court(models.Model):
     def default_week_days(self):
         return [1, 2, 3, 4, 5, 6, 7]
 
-    class Day(models.IntegerChoices):
+    class WeekDay(models.IntegerChoices):
         MONDAY = 1, 'Lunes'
         TUESDAY = 2, 'Martes'
         WEDNESDAY = 3, 'Miércoles'
@@ -83,7 +83,7 @@ class Court(models.Model):
     duration = models.DurationField(default=timedelta(hours=1))
     week_days = ArrayField(
         models.PositiveIntegerField(
-            choices=Day.choices,
+            choices=WeekDay.choices,
             unique=True,
             validators=(
                 MaxValueValidator(limit_value=7),

@@ -31,9 +31,9 @@ class Place(models.Model):
 
 class Booking(models.Model):
     class Status(models.TextChoices):
-        PENDING = 'pending', 'Pending'
-        CONFIRMED = 'confirmed', 'Confirmed'
-        CANCELED = 'canceled', 'Canceled'
+        PENDING = 'pending', 'Pendiente'
+        CONFIRMED = 'confirmed', 'Confirmado'
+        CANCELED = 'canceled', 'Canceledo'
 
     court = models.ForeignKey(
         'Court',

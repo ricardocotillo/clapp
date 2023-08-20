@@ -62,13 +62,13 @@ class Court(models.Model):
         return [1, 2, 3, 4, 5, 6, 7]
 
     class Day(models.IntegerChoices):
-        MONDAY = 1, 'Monday'
-        TUESDAY = 2, 'Tuesday'
-        WEDNESDAY = 3, 'Wednesday'
-        THURSDAY = 4, 'Thursday'
-        FRIDAY = 5, 'Friday'
-        SATURDAY = 6, 'Saturday'
-        SUNDAY = 7, 'Sunday'
+        MONDAY = 1, 'Lunes'
+        TUESDAY = 2, 'Martes'
+        WEDNESDAY = 3, 'Miércoles'
+        THURSDAY = 4, 'Jueves'
+        FRIDAY = 5, 'Viernes'
+        SATURDAY = 6, 'Sábado'
+        SUNDAY = 7, 'Domingo'
 
     place = models.ForeignKey(
         Place,

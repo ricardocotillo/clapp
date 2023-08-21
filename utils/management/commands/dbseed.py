@@ -6,6 +6,7 @@ from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 from authentication.models import User
 from club.models import Club, Sport, Membership
@@ -39,6 +40,10 @@ class Command(BaseCommand):
     seeder = Seed.seeder()
 
     def handle(self, *args, **options):
+        for r in User.Role.choices:
+            Group.objects.create(
+                name=r[0]
+            )
         self.seeder.add_entity(User, 200, {
             'image': None,
             'is_staff': False,

@@ -2,16 +2,9 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 
 
-class Sport(models.Model):
-    name = models.CharField(max_length=25, unique=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-
 class Club(models.Model):
     sport = models.ForeignKey(
-        'club.Sport',
+        'utils.Sport',
         on_delete=models.SET_NULL,
         null=True,
         related_name='clubs',
@@ -67,7 +60,12 @@ class Scrimmage(models.Model):
     )
     public = models.BooleanField(default=False)
     details = models.CharField(max_length=300)
-    court = models.ForeignKey('booking.Court')
+    court = models.ForeignKey(
+        'booking.Court',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='scrimmages',
+    )
     datetime = models.DateTimeField()
     max_players = models.PositiveIntegerField(null=True)
     dead_line = models.DateTimeField(null=True)
@@ -82,7 +80,7 @@ class Scrimmage(models.Model):
 
 class ScrimmageUser(models.Model):
     scrimmage = models.ForeignKey(
-        Scrimmage,
+        'club.Scrimmage',
         on_delete=models.CASCADE,
         related_name='scrimmage_users',
     )

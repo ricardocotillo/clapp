@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from drf_queryfields import QueryFieldsMixin
 from authentication.serializers import RelatedUserSerializer
-from club.serializers import SportSerializer
+from utils.serializers import SportSerializer
 from feedback.serializers import ImageSerializer
 from .models import Place, Court, Booking
 

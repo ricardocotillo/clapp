@@ -14,10 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from rest_framework_swagger.views import get_swagger_view
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
+
+schema_view = get_swagger_view(title='Clapp API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +32,8 @@ urlpatterns = [
         path('', include('club.urls')),
         path('', include('authentication.urls')),
         path('', include('booking.urls')),
-    ]))
+        path('schema', schema_view, name='schema'),
+    ])),
 ]
 
 if settings.DEBUG:

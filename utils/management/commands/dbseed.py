@@ -1,6 +1,6 @@
 import random
-from uuid import uuid4
 import requests
+from uuid import uuid4
 from django_seed import Seed
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -9,7 +9,8 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 
 from authentication.models import User
-from club.models import Club, Sport, Membership
+from club.models import Club, Membership
+from utils.models import Sport
 from booking.models import Place, Court
 from feedback.models import Image
 from publications.models import Publication

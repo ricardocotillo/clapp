@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_filters',
     'djoser',
     'django_seed',
+    'rest_framework_swagger',
 
     'authentication',
     'club',

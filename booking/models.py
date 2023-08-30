@@ -100,7 +100,7 @@ class Court(models.Model):
         decimal_places=2,
     )
     sport = models.ForeignKey(
-        'club.Sport',
+        'utils.Sport',
         on_delete=models.SET_NULL,
         null=True,
         related_name='courts',

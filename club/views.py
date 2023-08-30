@@ -1,8 +1,9 @@
 from rest_framework import viewsets
 from django.db.models import Count
 from django.db.models.functions import Coalesce
-from .models import Club, Membership, Sport
-from .serializers import ClubSerializer, MembershipSerializer, SportSerializer
+from utils.models import Sport
+from .models import Club, Membership, Scrimmage, ScrimmageUser
+from .serializers import ClubSerializer, MembershipSerializer, SportSerializer, ScrimmageSerializer, ScrimmageUserSerializer
 from .filters import MembershipFilter, ClubFilter
 
 
@@ -23,3 +24,13 @@ class MembershipViewSet(viewsets.ModelViewSet):
 class SportViewSet(viewsets.ModelViewSet):
     queryset = Sport.objects.order_by('name')
     serializer_class = SportSerializer
+
+
+class ScrimmageViewSet(viewsets.ModelViewSet):
+    queryset = Scrimmage.objects.order_by('-created_at')
+    serializer_class = ScrimmageSerializer
+
+
+class ScrimmageUserViewSet(viewsets.ModelViewSet):
+    queryset = ScrimmageUser.objects.order_by('-created_at')
+    serializer_class = ScrimmageUserSerializer

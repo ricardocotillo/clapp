@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 from authentication.models import User
 from club.models import Club, Membership
 from utils.models import Sport
-from booking.models import Place, Court
+from booking.models import Place
 from feedback.models import Image
 from publications.models import Publication
 
@@ -42,9 +42,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for r in User.Role.choices:
-            Group.objects.create(
+            g = Group.objects.create(
                 name=r[0]
             )
+
+        Group.objects.create(
+            name=User.Role.ADMIN
+        )
+        Group.objects.create(
+            name=User.Role.REFEREE
+        )
+        Group.objects.create(
+            name=User.Role.ORGANIZER
+        )
+
         self.seeder.add_entity(User, 200, {
             'image': None,
             'is_staff': False,

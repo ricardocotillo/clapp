@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.templatetags.static import static
 from authentication.serializers import UserSerializer
-from .models import Club, Sport, Membership
+from booking.serializers import CourtSerializer
+from .models import Club, Sport, Membership, Scrimmage, ScrimmageUser
 
 
 class SportSerializer(serializers.ModelSerializer):
@@ -58,3 +59,20 @@ class MembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Membership
         fields = '__all__'
+
+
+class ScrimmageUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = ScrimmageUser
+        exclude = ('scrimmage',)
+
+
+class ScrimmageSerializer(serializers.ModelSerializer):
+    scrimmage_users = ScrimmageUserSerializer(many=True, read_only=True)
+    court = CourtSerializer(read_only=True)
+
+    class Meta:
+        model = Scrimmage
+        exclude = ('club', 'users',)

@@ -57,3 +57,41 @@ class Membership(models.Model):
 
     def __str__(self) -> str:
         return f'{self.club.name} - {self.member.email} - {self.role}'
+
+
+class Scrimmage(models.Model):
+    club = models.ForeignKey(
+        'club.Club',
+        on_delete=models.CASCADE,
+        related_name='scrimmages',
+    )
+    public = models.BooleanField(default=False)
+    details = models.CharField(max_length=300)
+    court = models.ForeignKey('booking.Court')
+    datetime = models.DateTimeField()
+    max_players = models.PositiveIntegerField(null=True)
+    dead_line = models.DateTimeField(null=True)
+    users = models.ManyToManyField(
+        'authentication.User',
+        related_name='scrimmages',
+        through='club.ScrimmageUser',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class ScrimmageUser(models.Model):
+    scrimmage = models.ForeignKey(
+        Scrimmage,
+        on_delete=models.CASCADE,
+        related_name='scrimmage_users',
+    )
+    user = models.ForeignKey(
+        'authentication.User',
+        on_delete=models.CASCADE,
+        related_name='scrimmage_users',
+    )
+    paid = models.BooleanField(default=False)
+    attended = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

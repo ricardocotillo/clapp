@@ -8,7 +8,7 @@ class User(AbstractUser):
     class Role(models.TextChoices):
         ORGANIZER = 'organizer', 'Organizador'
         REFEREE = 'referee', 'Arbitro'
-        ADMIN = 'admin', 'Administrador'
+        # ADMIN = 'admin', 'Administrador'
 
     image = models.ImageField(null=True)
     email = models.EmailField(unique=True)

@@ -41,14 +41,6 @@ class Command(BaseCommand):
     seeder = Seed.seeder()
 
     def handle(self, *args, **options):
-        for r in User.Role.choices:
-            g = Group.objects.create(
-                name=r[0]
-            )
-
-        Group.objects.create(
-            name=User.Role.ADMIN
-        )
         Group.objects.create(
             name=User.Role.REFEREE
         )

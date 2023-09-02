@@ -1,3 +1,4 @@
+from typing import Collection, Optional
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
@@ -22,14 +23,23 @@ class Match(models.Model):
 
 
 class MatchClub(models.Model):
-    match = models.ForeignKey('Match', on_delete=models.CASCADE)
+    match = models.ForeignKey(
+        'Match', on_delete=models.CASCADE, related_name='match_clubs')
     club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
     won = models.BooleanField(default=False)
     players = models.ManyToManyField(
         'authentication.User',
-        related_name='matchclubs',
+        related_name='match_clubs',
         through='MatchClubUser'
     )
+
+    def clean_fields(self, exclude: Collection[str] | None = ...) -> None:
+        super().clean_fields(exclude)
+        wmatch = self.match.match_clubs.filter(won=True).first()
+        if wmatch and wmatch.pk != self.pk and self.won:
+            raise ValidationError({
+                'won': 'Solo un ganador por partido es permitido.',
+            })
 
     def clean(self) -> None:
         if self.match.clubs.count() >= 2 and not self.pk:

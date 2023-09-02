@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Match, MatchPlayer
+from .models import Match, MatchClub
 
 admin.site.register(Match)
-admin.site.register(MatchPlayer)
+admin.site.register(MatchClub)

@@ -30,6 +30,11 @@ class Club(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.logo:
+            self.logo = None
+        return super().save(*args, **kwargs)
+
 
 class Membership(models.Model):
     class Roles(models.TextChoices):
@@ -49,7 +54,7 @@ class Membership(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f'{self.club.name} - {self.member.email} - {self.role}'
+        return f'{self.club.name} - {self.user.email} - {self.role}'
 
 
 class Scrimmage(models.Model):

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from djoser.serializers import UserSerializer as DjoserUserSerializer
 from django.templatetags.static import static
-from match.models import MatchPlayer
+from match.models import MatchClubUser
 from .models import User
 
 
@@ -30,10 +30,10 @@ class UserSerializer(serializers.ModelSerializer):
         return self.context.get('request').build_absolute_uri(url)
 
     def get_matches_abandoned(self, obj: User):
-        return MatchPlayer.objects.filter(user=obj, assisted=False).count()
+        return MatchClubUser.objects.filter(user=obj, assisted=False).count()
 
     def get_matches_assisted(self, obj: User):
-        return MatchPlayer.objects.filter(user=obj, assisted=True).count()
+        return MatchClubUser.objects.filter(user=obj, assisted=True).count()
 
 
 class MeSerializer(DjoserUserSerializer):
@@ -51,10 +51,10 @@ class MeSerializer(DjoserUserSerializer):
         return self.context.get('request').build_absolute_uri(url)
 
     def get_matches_abandoned(self, obj: User):
-        return MatchPlayer.objects.filter(user=obj, assisted=False).count()
+        return MatchClubUser.objects.filter(user=obj, assisted=False).count()
 
     def get_matches_assisted(self, obj: User):
-        return MatchPlayer.objects.filter(user=obj, assisted=True).count()
+        return MatchClubUser.objects.filter(user=obj, assisted=True).count()
 
 
 class RelatedUserSerializer(serializers.ModelSerializer):

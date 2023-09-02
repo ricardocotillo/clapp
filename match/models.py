@@ -1,17 +1,13 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
 
 
 class Match(models.Model):
-    local = models.ForeignKey(
+    clubs = models.ManyToManyField(
         'club.Club',
-        on_delete=models.CASCADE,
-        related_name='matches_as_local',
-    )
-    visitor = models.ForeignKey(
-        'club.Club',
-        on_delete=models.CASCADE,
-        related_name='matches_as_visitor',
+        related_name='matches',
+        through='match.MatchClub',
     )
     referees = models.ManyToManyField(
         'authentication.User',
@@ -19,42 +15,29 @@ class Match(models.Model):
     )
     datetime = models.DateTimeField()
     address = models.CharField(max_length=300)
-    # solo arbitro puede determinar a ganador
-    winner = models.ForeignKey(
-        'club.Club',
-        on_delete=models.CASCADE,
-        related_name='matches_won',
+    comments = GenericRelation(
+        'feedback.Comment',
+        related_query_name='match'
     )
+
+
+class MatchClub(models.Model):
+    match = models.ForeignKey('Match', on_delete=models.CASCADE)
+    club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
+    won = models.BooleanField(default=False)
     players = models.ManyToManyField(
         'authentication.User',
-        through='MatchPlayer',
-        related_name='matches',
-    )
-    comments = GenericRelation('feedback.Comment', related_query_name='match')
-
-
-class MatchPlayer(models.Model):
-    class MatchPlayerTypes(models.TextChoices):
-        LOCAL = 'local', 'Local'
-        VISITOR = 'visitor', 'Visitor'
-
-    match = models.ForeignKey(
-        'Match',
-        on_delete=models.CASCADE,
-        related_name='match_players',
-    )
-    user = models.ForeignKey(
-        'authentication.User',
-        on_delete=models.CASCADE,
-        related_name='match_players',
-    )
-    type = models.CharField(
-        max_length=15,
-        choices=MatchPlayerTypes.choices,
-    )
-    assisted = models.BooleanField(
-        null=True
+        related_name='matchclubs',
+        through='MatchClubUser'
     )
 
-    class Meta:
-        unique_together = ('match', 'user',)
+    def clean(self) -> None:
+        if self.match.clubs.count() >= 2 and not self.pk:
+            raise ValidationError('Solo dos clubes son permitidos por partido')
+        return super().clean()
+
+
+class MatchClubUser(models.Model):
+    match_club = models.ForeignKey(MatchClub, on_delete=models.CASCADE)
+    user = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
+    assited = models.BooleanField(null=True)

@@ -50,4 +50,4 @@ class MatchClub(models.Model):
 class MatchClubUser(models.Model):
     match_club = models.ForeignKey(MatchClub, on_delete=models.CASCADE)
     user = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
-    assited = models.BooleanField(null=True)
+    assisted = models.BooleanField(null=True)

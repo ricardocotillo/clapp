@@ -9,7 +9,7 @@ from .filters import MembershipFilter, ClubFilter
 
 class ClubViewSet(viewsets.ModelViewSet):
     queryset = Club.objects.annotate(
-        members_count=Coalesce(Count('members'), 0)
+        members_count=Coalesce(Count('users'), 0)
     ).order_by('-created_at')
     serializer_class = ClubSerializer
     filterset_class = ClubFilter

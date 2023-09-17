@@ -17,7 +17,7 @@ class Club(models.Model):
     )
     name = models.CharField(max_length=100, unique=True, verbose_name='nombre')
     logo = models.ImageField(null=True)
-    members = models.ManyToManyField(
+    users = models.ManyToManyField(
         'authentication.User',
         related_name='clubs',
         through='club.Membership',

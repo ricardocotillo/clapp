@@ -182,3 +182,5 @@ SIMPLE_JWT = {
 UNSPLASH_BASE = 'https://api.unsplash.com'
 UNSPLASH_ACCESS_KEY = env('UNSPLASH_ACCESS_KEY')
 UNSPLASH_SECRET_KEY = env('UNSPLASH_SECRET_KEY')
+
+DEFAULT_FROM_EMAIL = 'rcotillo@cotillo.tech'

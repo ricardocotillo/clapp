@@ -43,7 +43,11 @@ class Membership(models.Model):
         MEMBER = 'member', 'Miembro'
 
     user = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
-    club = models.ForeignKey('club.Club', on_delete=models.CASCADE)
+    club = models.ForeignKey(
+        'club.Club',
+        on_delete=models.CASCADE,
+        related_name='memberships',
+    )
     role = models.CharField(
         max_length=10,
         choices=Roles.choices,
